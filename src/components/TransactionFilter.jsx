@@ -1,4 +1,5 @@
 function TransactionFilter({
+
     search,
     setSearch,
 
@@ -8,16 +9,28 @@ function TransactionFilter({
     filterCategory,
     setFilterCategory,
 
+    startDate,
+    setStartDate,
+
     endDate,
     setEndDate,
 
     sortAmount,
     setSortAmount,
 
-    catergies,
-
+    categories = [],
     onClearFilter
 }) {
+
+    const availableCategories = categories.filter((cat) => {
+        if (!filterType) return true;
+        if (typeof cat === 'object' && cat !== null && cat.type) {
+            return cat.type === filterType;
+        }
+
+        return true
+    })
+
     return (
         <div>
             <h2>Pencarian dan Filter</h2>
@@ -63,28 +76,30 @@ function TransactionFilter({
                     </option>
                 </select>
             </div>
-
+            
+            {/* Filter Kategori */}
             <div>
                 <label>Kategori</label>
 
                 <select
                     value={filterCategory}
-                    onChange={(event) =>
+                    onChange={(event) => 
                         setFilterCategory(event.target.value)
                     }
                 >
-                    <option value={""}>
-                        Semua Kategori
-                    </option>
+                    <option value="" disabled>Semua Kategori</option>
 
-                    {catergies.map((category) => (
-                        <option
-                            key={category}
-                            value={category}
-                        >
-                            {category}
-                        </option>
-                    ))}
+                    {availableCategories?.map((category) => {
+                        const isObject = typeof category === 'object' && category !== null;
+                        const catValue = isObject ? (category.name || category.id) : category;
+                        const catKey = isObject ? (category.id || category.name) : category 
+
+                        return (
+                            <option key={catKey} value={catValue}>
+                                {catValue}
+                            </option>
+                        )
+                    })}
                 </select>
             </div>
 
@@ -136,7 +151,7 @@ function TransactionFilter({
             </div>
 
             <button
-                value={button}
+                value="button"
                 onClick={onClearFilter}
             >
                 Hapus Semua Filter
