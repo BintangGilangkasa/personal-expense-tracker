@@ -24,7 +24,7 @@ function TransactionDetail({ transaction }){
             </p>
 
             <p>
-                Kategori: {transaction.category}
+                Kategori: {typeof transaction.category === 'object' ? transaction.category?.name : transaction.category || '-'}
             </p>
 
             <p>

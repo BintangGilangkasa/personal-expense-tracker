@@ -5,8 +5,8 @@ function TransactionForm({
     editingTransaction,
     onUpdateTransaction,
 
-
 }) {
+
     const [form, setForm] = useState({
         title: "",
         amount: "",
@@ -29,6 +29,10 @@ function TransactionForm({
         }
 
     }, [editingTransaction]);
+
+    const handleAmountChange = (event) => {
+        const value = Number(event.target.value);
+    }
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -94,6 +98,7 @@ function TransactionForm({
                     <label>Nominal</label>
 
                     <input
+                        min="0"
                         type="number"
                         name="amount"
                         value={form.amount}
@@ -118,12 +123,26 @@ function TransactionForm({
                 <div>
                     <label>Kategori</label>
 
-                    <input
-                        type="text"
+                    <select
                         name="category"
                         value={form.category}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value={""} disabled hidden>Pilih Kategori</option>
+
+                        <optgroup label="Pengeluaran">
+                            <option value={"barang"}>Barang</option>
+                            <option value="makanan">Makanan & Minuman</option>
+                            <option value="transportasi">Transportasi</option>
+                            <option value="tagihan">Tagihan & Utilitas</option>
+                        </optgroup>
+
+                        <optgroup label="Pemasukan">
+                            <option value="gaji">Gaji Utama</option>
+                            <option value="usaha">Usaha</option>
+                            <option value="investasi">Investasi</option>
+                        </optgroup>
+                    </select>
                 </div>
 
                 <div>

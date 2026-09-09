@@ -69,7 +69,7 @@ function App() {
     ]);
   };
 
-  const caterogies = [
+  const categories = [
     ...new Set(
       transactions.map(
         (transaction => transaction.category)
@@ -144,6 +144,10 @@ function App() {
 
             <TransactionDetail
               transaction={selectedTransaction}
+            />
+
+            <TransactionFilter
+              
             />
           </main>
         </>
