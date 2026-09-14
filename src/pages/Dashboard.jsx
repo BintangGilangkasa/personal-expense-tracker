@@ -28,9 +28,12 @@ function Dashboard({ transactions }) {
 
     // BALANCE
     const balance = totalIncome - totalExpense;
+
+    // 
+
     return (
         <div className="dashboard-summary">
-            <h1 className="title">Dashboard</h1>
+            <h1 className="title">Dashboard Keuangan</h1>
             <h3>Ringkasan</h3>
             <div className="card">
                 <div className="summary-card summa">

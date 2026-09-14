@@ -1,3 +1,5 @@
+import "./TransactionFilter.css"
+
 function TransactionFilter({
 
     search,
@@ -32,13 +34,28 @@ function TransactionFilter({
     })
 
     return (
-        <div>
-            <h2>Pencarian dan Filter</h2>
+        <section className="transaction-filter">
+            <div className="filter-heading">
+                <div>
+                    <span className="component-eyebrow">Temukan data</span>
+                    <h2>Pencarian & Filter</h2>
+                </div>
+                <button
+                    type="button"
+                    className="filter-clear"
+                    onClick={onClearFilter}
+                >
+                    Hapus Filter
+                </button>
+            </div>
 
-            <div>
-                <label>Cari Judul</label>
+            <div className="filter-grid">
+
+            <div className="filter-field filter-search">
+                <label htmlFor="filter-search">Cari Judul</label>
 
                 <input
+                id="filter-search"
                 type="text"
                 placeholder="Cari Transaksi"
                 value={search}
@@ -48,10 +65,11 @@ function TransactionFilter({
                 />
             </div>
 
-            <div>
-                <label>Tipe</label>
+            <div className="filter-field">
+                <label htmlFor="filter-type">Tipe</label>
                 
                 <select
+                    id="filter-type"
                     value={filterType}
                     onChange={(event) =>
                         setFilterType(event.target.value)
@@ -78,16 +96,17 @@ function TransactionFilter({
             </div>
             
             {/* Filter Kategori */}
-            <div>
-                <label>Kategori</label>
+            <div className="filter-field">
+                <label htmlFor="filter-category">Kategori</label>
 
                 <select
+                    id="filter-category"
                     value={filterCategory}
                     onChange={(event) => 
                         setFilterCategory(event.target.value)
                     }
                 >
-                    <option value="" disabled>Semua Kategori</option>
+                    <option value="">Semua Kategori</option>
 
                     {availableCategories?.map((category) => {
                         const isObject = typeof category === 'object' && category !== null;
@@ -103,10 +122,11 @@ function TransactionFilter({
                 </select>
             </div>
 
-            <div>
-                <label>Dari Tanggal</label>
+            <div className="filter-field">
+                <label htmlFor="filter-start-date">Dari Tanggal</label>
 
                 <input 
+                    id="filter-start-date"
                     type="date"
                     value={startDate}
                         onChange={(event) => 
@@ -115,10 +135,11 @@ function TransactionFilter({
                 />
             </div>
 
-            <div>
-                <label>Sampai Tanggal</label>
+            <div className="filter-field">
+                <label htmlFor="filter-end-date">Sampai Tanggal</label>
 
                 <input 
+                    id="filter-end-date"
                     type={"date"}
                     value={endDate}
                         onChange={(event) => 
@@ -127,10 +148,11 @@ function TransactionFilter({
                 />
             </div>
 
-            <div>
-                <label>Urutkan Nominal</label>
+            <div className="filter-field">
+                <label htmlFor="filter-sort">Urutkan Nominal</label>
 
                 <select
+                    id="filter-sort"
                     value={sortAmount}
                     onChange={(event) =>
                         setSortAmount(event.target.value)
@@ -149,14 +171,8 @@ function TransactionFilter({
                     </option>
                 </select>
             </div>
-
-            <button
-                value="button"
-                onClick={onClearFilter}
-            >
-                Hapus Semua Filter
-            </button>
-        </div>
+            </div>
+        </section>
     )
 }
 

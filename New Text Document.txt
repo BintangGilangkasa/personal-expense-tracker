@@ -1,0 +1,142 @@
+# Browser Routes di App.jsx
+<BrowserRouter>
+        <Routes>
+          <Route element={<PrivateRoutes />}></Route>
+          <Route element={<LoginPage />} path="/Login"></Route>
+          <Route></Route>
+        </Routes>
+      </BrowserRouter>
+
+# function Dashboard
+function Dashboard({ transactions }) {
+
+    // FORMAT RUPIAH
+    const formatRupiah = (amount) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0
+        }).format(amount);
+    };
+
+    // INCOME
+    const incomeTransaction = transactions.filter(
+        (transaction) => transaction.type === "INCOME"
+    );
+
+    const totalIncome = incomeTransaction.reduce(
+        (total, transaction) =>
+            total + transaction.amount,
+        0
+    );
+
+    // EXPENSE
+    const expenseTransaction = transactions.filter(
+        (transaction) => transaction.type === "EXPENSE"
+    );
+
+    const totalExpense = expenseTransaction.reduce(
+        (total, transaction) =>
+            total + transaction.amount,
+        0
+    );
+
+    // BALANCE
+    const balance = totalIncome - totalExpense;
+
+    return (
+        <section className="dashboard">
+            <div className="dashboard-heading">
+                <p className="dashboard-label">
+                    Ringkasan Keuangan
+                </p>
+
+                <h1 className="dashboard-title">
+                    Dashboard
+                </h1>
+
+                <p className="dashboard-description">
+                    Pantau kondisi keuanganmu secara ringkas.
+                </p>
+            </div>
+
+            <div className="summary-grid">
+
+                <div className="summary-card income-card">
+                    <div className="summary-top">
+                        <span className="summary-icon">
+                            ↑
+                        </span>
+
+                        <span className="summary-type">
+                            Income
+                        </span>
+                    </div>
+
+                    <h3>Total Pemasukan</h3>
+
+                    <p className="summary-value">
+                        {formatRupiah(totalIncome)}
+                    </p>
+                </div>
+
+                <div className="summary-card expense-card">
+                    <div className="summary-top">
+                        <span className="summary-icon">
+                            ↓
+                        </span>
+
+                        <span className="summary-type">
+                            Expense
+                        </span>
+                    </div>
+
+                    <h3>Total Pengeluaran</h3>
+
+                    <p className="summary-value">
+                        {formatRupiah(totalExpense)}
+                    </p>
+                </div>
+
+                <div className="summary-card balance-card">
+                    <div className="summary-top">
+                        <span className="summary-icon">
+                            Rp
+                        </span>
+
+                        <span className="summary-type">
+                            Balance
+                        </span>
+                    </div>
+
+                    <h3>Total Saldo</h3>
+
+                    <p className="summary-value">
+                        {formatRupiah(balance)}
+                    </p>
+                </div>
+
+                <div className="summary-card transaction-card">
+                    <div className="summary-top">
+                        <span className="summary-icon">
+                            #
+                        </span>
+
+                        <span className="summary-type">
+                            Activity
+                        </span>
+                    </div>
+
+                    <h3>Total Transaksi</h3>
+
+                    <p className="summary-value">
+                        {transactions.length}
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    );
+}
+
+export default Dashboard;

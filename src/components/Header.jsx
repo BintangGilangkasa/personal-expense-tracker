@@ -1,9 +1,8 @@
-function Header() {
+import "./Header.css"
 
-    const handleLogout = (event) => {
-    event.preventDefault();
+function Header({ onLogout }) {
 
-    console.log("coba-coba")
+    const handleLogout = (  ) => {
 
     const comfirmedLogout = window.confirm(
       "Apakah anda ingin keluar dari akun ini?"
@@ -13,16 +12,15 @@ function Header() {
       return;
     }
 
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
+    localStorage.removeItem("isLoggedIn")
 
-    window.location.href = "/Login"
+    onLogout();
   }
 
     return (
         <header className="header">
             <div className="header-container">
-                <div>
+                <div className="header-brand">
                     <h1 className="header-logo">
                         Expense Tracker
                     </h1>
@@ -33,7 +31,7 @@ function Header() {
                 </div>
 
                 <div className="header-user">
-                    <span className="header-username">
+                    <span className="header-username" aria-label="Pengguna aktif">
                         Admin
                     </span>
 
