@@ -1,0 +1,107 @@
+.transaction-detail {
+  margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.detail-heading {
+  display: flex;
+  padding: 22px 26px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid #e9edf3;
+}
+
+.detail-type {
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.detail-type.income {
+  color: #087654;
+  background: #e5f8f0;
+}
+
+.detail-type.expense {
+  color: #b03b3b;
+  background: #ffeded;
+}
+
+.detail-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 24px 26px 30px;
+  gap: 22px;
+}
+
+.detail-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.detail-field > span {
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.detail-field > strong {
+  overflow-wrap: anywhere;
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.detail-amount > strong {
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.detail-note {
+  grid-column: span 2;
+}
+
+.detail-id {
+  position: absolute;
+  right: 26px;
+  bottom: 12px;
+  color: #a5adbb;
+  font-size: 0.64rem;
+}
+
+@media (max-width: 760px) {
+  .detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .transaction-detail {
+    border-radius: 16px;
+  }
+
+  .detail-heading,
+  .detail-grid {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-note {
+    grid-column: auto;
+  }
+}

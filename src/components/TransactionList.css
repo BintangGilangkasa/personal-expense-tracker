@@ -1,0 +1,237 @@
+.transaction-list {
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.list-heading {
+  display: flex;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.transaction-count {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: #606d86;
+  background: #f2f4f8;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.transaction-items {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.transaction-item {
+  display: flex;
+  min-width: 0;
+  padding: 15px;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1px solid #e7ebf2;
+  border-radius: 14px;
+  background: #ffffff;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.transaction-item:hover {
+  border-color: #d3d9e5;
+  box-shadow: 0 9px 24px rgba(42, 53, 80, 0.07);
+  transform: translateY(-1px);
+}
+
+.transaction-marker {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  place-items: center;
+  border-radius: 11px;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.transaction-marker.income {
+  color: var(--color-income);
+  background: #eaf9f3;
+}
+
+.transaction-marker.expense {
+  color: var(--color-expense);
+  background: #fff0f0;
+}
+
+.transaction-main {
+  min-width: 0;
+  flex: 1;
+}
+
+.transaction-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.transaction-title-row h3 {
+  overflow: hidden;
+  margin: 1px 0 0;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-amount {
+  flex: 0 0 auto;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.transaction-amount.income {
+  color: var(--color-income);
+}
+
+.transaction-amount.expense {
+  color: var(--color-expense);
+}
+
+.transaction-meta {
+  display: flex;
+  overflow: hidden;
+  margin-top: 8px;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+}
+
+.transaction-meta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transaction-meta span:not(:last-child)::after {
+  margin-left: 7px;
+  color: #ccd2dc;
+  content: "•";
+}
+
+.transaction-actions {
+  display: flex;
+  margin-top: 13px;
+  gap: 7px;
+}
+
+.transaction-actions button {
+  min-height: 31px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  font-weight: 750;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.btn-detail {
+  color: #424f68;
+  background: #f2f4f8;
+}
+
+.btn-detail:hover {
+  color: var(--color-primary);
+  background: #eeedff;
+}
+
+.btn-update {
+  color: #256b57;
+  background: #edf8f4;
+}
+
+.btn-update:hover {
+  color: #0a7454;
+  background: #daf2e9;
+}
+
+.btn-delete {
+  color: #b23e3e;
+  background: #fff2f2;
+}
+
+.btn-delete:hover {
+  color: #9e2929;
+  background: #ffe4e4;
+}
+
+.transaction-empty {
+  display: grid;
+  min-height: 290px;
+  padding: 34px 20px;
+  place-items: center;
+  align-content: center;
+  border: 1px dashed #d4dbe7;
+  border-radius: 14px;
+  text-align: center;
+  background: #fafbfd;
+}
+
+.empty-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 15px;
+  color: var(--color-primary);
+  background: #eeedff;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.transaction-empty h3 {
+  margin: 0 0 6px;
+  font-size: 0.92rem;
+}
+
+.transaction-empty p {
+  max-width: 260px;
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.76rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 520px) {
+  .transaction-list {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .transaction-item {
+    padding: 13px;
+  }
+
+  .transaction-title-row {
+    display: block;
+  }
+
+  .transaction-title-row h3 {
+    margin-bottom: 5px;
+  }
+
+  .transaction-meta {
+    flex-wrap: wrap;
+  }
+}

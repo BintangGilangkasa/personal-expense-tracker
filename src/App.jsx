@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 import LoginPage from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
@@ -8,11 +9,15 @@ import TransactionForm from "./components/TransactionForm";
 import TransactionList from "./components/TransactionList";
 import TransactionDetail from "./components/TransactionDetail";
 import TransactionFilter from "./components/TransactionFilter";
+import NotFoundPage from "./pages/NotFoundPage";
 
 
+import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem("isLoggedIn") === "true"
+  });
 
   const [transactions, setTransactions] = useState([]);
 
@@ -32,6 +37,17 @@ function App() {
 
   const [sortAmount, setSortAmount] = useState("");
 
+
+
+  const handleLogin = () => {
+    localStorage.setItem("isLoggedIn", "true");
+    setIsLoggedIn(true);
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn")
+    setIsLoggedIn(false)
+  }
 
   const handleUpdateTransaction = (updatedTransaction) => {
     const updatedTransactions = transactions.map(
@@ -69,6 +85,15 @@ function App() {
     ]);
   };
 
+  const handleClearFilter = () => {
+    setSearch("");
+    setFilterType("");
+    setFilterCategory("");
+    setStartDate("");
+    setEndDate("");
+    setSortAmount("");
+  };
+
   const categories = [
     ...new Set(
       transactions.map(
@@ -78,7 +103,7 @@ function App() {
 
   ]
 
-  let filteredTransaction = transactions.filter(
+  let filteredTransactions = transactions.filter(
     (transaction) => {
       const matchSearch = transaction
         .title.toLowerCase()
@@ -103,17 +128,26 @@ function App() {
       return (
         matchSearch &&
         matchType &&
-        matchSearch &&
         matchCategory &&
         matchStartDate &&
         matchEndDate
       )
 
     }
-  )
+  );
+
+  if (sortAmount) {
+    filteredTransactions = [...filteredTransactions].sort((first, second) =>
+      sortAmount === "ASC"
+        ? first.amount - second.amount
+        : second.amount - first.amount
+    );
+  }
 
   return (
     <div className="app">
+      
+
       {!isLoggedIn ? (
         <LoginPage
           onLogin={() => setIsLoggedIn(true)}
@@ -129,26 +163,39 @@ function App() {
               transactions={transactions}
             />
 
-            <TransactionForm
-              onAddTransaction={handleAddTransaction}
-              editingTransaction={editingTransaction}
-              onUpdateTransaction={handleUpdateTransaction}
-            />
-
-            <TransactionList
-              transactions={transactions}
-              onViewDetail={setSelectedTransaction}
-              onDelete={handleDeleteTransaction}
-              onUpdate={setEditingTransaction}
-            />
-
-            <TransactionDetail
-              transaction={selectedTransaction}
-            />
-
             <TransactionFilter
-              
+              search={search}
+              setSearch={setSearch}
+              filterType={filterType}
+              setFilterType={setFilterType}
+              filterCategory={filterCategory}
+              setFilterCategory={setFilterCategory}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              sortAmount={sortAmount}
+              setSortAmount={setSortAmount}
+              categories={categories}
+              onClearFilter={handleClearFilter}
             />
+
+            <div className="content-grid">
+              <TransactionForm
+                onAddTransaction={handleAddTransaction}
+                editingTransaction={editingTransaction}
+                onUpdateTransaction={handleUpdateTransaction}
+              />
+
+              <TransactionList
+                transactions={filteredTransactions}
+                onViewDetail={setSelectedTransaction}
+                onDelete={handleDeleteTransaction}
+                onUpdate={setEditingTransaction}
+              />
+            </div>
+
+            <TransactionDetail transaction={selectedTransaction} />
           </main>
         </>
       )}

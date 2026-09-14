@@ -1,63 +1,83 @@
+import { useState } from "react";
+import "./TransactionList.css"
+
 function TransactionList({ transactions, onViewDetail, onDelete, onUpdate }) {
+    const formatRupiah = (amount) => new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0,
+    }).format(amount);
+
     return (
-        <div>
-            <h2>Daftar Transaksi</h2>
+        <section className="transaction-list">
+            <div className="list-heading">
+                <div>
+                    <span className="component-eyebrow">Aktivitas</span>
+                    <h2>Daftar Transaksi</h2>
+                </div>
+                <span className="transaction-count">{transactions.length} transaksi</span>
+            </div>
 
             {transactions.length === 0 ? (
-                <p>Belum ada Transaksi</p>
+                <div className="transaction-empty">
+                    <span className="empty-icon">↗</span>
+                    <h3>Belum ada transaksi</h3>
+                    <p>Transaksi yang Anda tambahkan akan muncul di sini.</p>
+                </div>
             ) : (
-                transactions.map((transaction) => (
-                    <div key={transaction.id}>
-                        <h3>{transaction.title}</h3>
+                <div className="transaction-items">
+                    {transactions.map((transaction) => (
+                        <article className="transaction-item" key={transaction.id}>
+                            <div className={`transaction-marker ${transaction.type.toLowerCase()}`}>
+                                {transaction.type === "INCOME" ? "+" : "−"}
+                            </div>
 
-                        <p>
-                            Nominal: {transaction.amount}
-                        </p>
+                            <div className="transaction-main">
+                                <div className="transaction-title-row">
+                                    <h3>{transaction.title}</h3>
+                                    <strong className={`transaction-amount ${transaction.type.toLowerCase()}`}>
+                                        {transaction.type === "INCOME" ? "+" : "−"}{formatRupiah(transaction.amount)}
+                                    </strong>
+                                </div>
 
-                        <p>
-                            Tipe: {transaction.type}
-                        </p>
+                                <div className="transaction-meta">
+                                    <span>{transaction.category}</span>
+                                    <span>{transaction.date}</span>
+                                    {transaction.note && <span>{transaction.note}</span>}
+                                </div>
 
-                        <p>
-                            Kategori: {transaction.category}
-                        </p>
+                                <div className="transaction-actions">
+                                    <button type="button" className="btn-detail"
+                                        onClick={() =>
+                                            onViewDetail(transaction)
+                                        }
+                                    >
+                                        Detail
+                                    </button>
 
-                        <p>
-                            Tanggal: {transaction.date}
-                        </p>
+                                    <button type="button" className="btn-delete"
+                                        onClick={() =>
+                                            onDelete(transaction.id)
+                                        }
+                                    >
+                                        Hapus
+                                    </button>
 
-                        <p>
-                            Catatan: {transaction.note || "-"}
-                        </p>
-
-                        <button className="btn-detail"
-                            onClick={() =>
-                                onViewDetail(transaction)
-                            }
-                        >
-                            Detail
-                        </button>
-
-                        <button className="btn-delete"
-                            onClick={() =>
-                                onDelete(transaction.id)
-                            }
-                        >
-                            Hapus
-                        </button>
-
-                        <button className="btn-update"
-                            onClick={() =>
-                                onUpdate(transaction)
-                            }
-                        >
-                            Edit
-                        </button>
-                    </div>
-                ))
+                                    <button type="button" className="btn-update"
+                                        onClick={() =>
+                                            onUpdate(transaction)
+                                        }
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
             )
-            }
-        </div>
+        }
+        </section>
     )
 }
 
