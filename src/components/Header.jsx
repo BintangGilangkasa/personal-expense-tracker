@@ -1,6 +1,9 @@
 import "./Header.css"
+import { useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 function Header({ onLogout }) {
+    const dispatch = useDispatch();
 
     const handleLogout = (  ) => {
 
@@ -14,7 +17,8 @@ function Header({ onLogout }) {
 
     localStorage.removeItem("isLoggedIn")
 
-    onLogout();
+    dispatch(logout());
+    onLogout?.();
   }
 
     return (

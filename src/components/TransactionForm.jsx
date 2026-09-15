@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
 
+import  {
+    useDispatch,
+    useSelector
+} from "react-redux"
+import { fetchCategories } from "../features/categories/categorySlice";
+
+
 import "./TransactionForm.css"
 
 function TransactionForm({
@@ -19,6 +26,12 @@ function TransactionForm({
     });
 
     const [error, setError] = useState({})
+    const dispatch = useDispatch();
+    const { items: categories, status: categoryStatus } = useSelector((state) => state.categories);
+
+    useEffect(() => {
+        if (categoryStatus === "idle") dispatch(fetchCategories());
+    }, [categoryStatus, dispatch]);
 
 
     useEffect(() => {
@@ -73,7 +86,7 @@ function TransactionForm({
         }
 
         if (form.note.length > 200){
-            newsError.note("Catatan maksimal 200 karakter")
+            newsError.note = "Catatan maksimal 200 karakter"
         }
 
         setError(newsError)
@@ -212,18 +225,9 @@ function TransactionForm({
                     >
                         <option value={""} disabled hidden>Pilih Kategori</option>
 
-                        <optgroup label="Pengeluaran">
-                            <option value="barang">Barang</option>
-                            <option value="makanan">Makanan & Minuman</option>
-                            <option value="transportasi">Transportasi</option>
-                            <option value="tagihan">Tagihan & Utilitas</option>
-                        </optgroup>
-
-                        <optgroup label="Pemasukan">
-                            <option value="gaji">Gaji Utama</option>
-                            <option value="usaha">Usaha</option>
-                            <option value="investasi">Investasi</option>
-                        </optgroup>
+                        {categoryStatus === "loading" && <option disabled>Memuat kategori...</option>}
+                        {categoryStatus === "error" && <option disabled>Kategori gagal dimuat</option>}
+                        {categories.map((category) => <option key={category.id} value={category.name}>{category.name}</option>)}
                     </select>
 
                     {error.category && (

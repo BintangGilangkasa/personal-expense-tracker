@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
+const storageKey = "transactions";
 const initialState = {
-    transaction: []
+    items: JSON.parse(localStorage.getItem(storageKey) || "[]")
 
 };
 
@@ -13,29 +14,21 @@ const transactionSlice = createSlice({
     reducers: {
 
         addTransaction: (state, action) => {
-            state.transaction.push(
-                action.payload
-            );
+            state.items.push(action.payload);
+            localStorage.setItem(storageKey, JSON.stringify(state.items));
         },
 
         deleteTransaction: (state, action) => {
-            state.transaction 
-            state.transaction.filter(
-                (transaction) =>
-                    transaction.id !== action.payload
-            );
+            state.items = state.items.filter((transaction) => transaction.id !== action.payload);
+            localStorage.setItem(storageKey, JSON.stringify(state.items));
         },
 
         updateTransaction: (state, action) => {
-            const index = 
-            state.transaction.findIndex(
-                (transaction) =>
-                    transaction.id === action.payload.id
-            );
+            const index = state.items.findIndex((transaction) => transaction.id === action.payload.id);
 
             if (index !== -1) {
-                state.transaction[index] =
-                    action.payload;
+                state.items[index] = action.payload;
+                localStorage.setItem(storageKey, JSON.stringify(state.items));
             }
         }
     }

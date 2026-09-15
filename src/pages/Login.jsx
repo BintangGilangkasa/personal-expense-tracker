@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../features/auth/authSlice";
 
 import {
   FaUser,
@@ -9,6 +11,7 @@ import {
 import "./Login.css";
 
 function LoginPage({ onLogin }) {
+    const dispatch = useDispatch();
     const [user, setUser] = useState({
         username: "",
         password: ""
@@ -41,7 +44,8 @@ function LoginPage({ onLogin }) {
             user.username === "admin" && 
             user.password === "admin123"
         ) {
-            onLogin();
+            dispatch(login());
+            onLogin?.();
             navigate("/dashboard")
         } else {
             setError("Username atau Password Salah")
